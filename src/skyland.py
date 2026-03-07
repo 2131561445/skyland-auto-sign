@@ -297,7 +297,8 @@ def read(path):
 
 def read_from_env():
     v = []
-    token_list = token_env.split(',')
+    # 同时支持逗号、换行符分隔的多个 token（GitHub Secrets 多行会变成 \n）
+    token_list = token_env.replace('\r\n', '\n').replace('\n', ',').split(',')
     for i in token_list:
         i = i.strip()
         if i and i not in v:
